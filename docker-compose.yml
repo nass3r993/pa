@@ -6,8 +6,8 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./src:/var/www/html:rw
-      - ./uploads:/var/www/html/uploads:rw
+      - ./src:/var/www/html
+      - ./uploads:/var/www/html/uploads
     depends_on:
       - db
     environment:
@@ -15,6 +15,7 @@ services:
       - MYSQL_USER=fortipass
       - MYSQL_PASSWORD=fortipass_secret
       - MYSQL_DATABASE=fortipass
+    restart: unless-stopped
 
   db:
     image: mysql:8.0
@@ -24,9 +25,9 @@ services:
       MYSQL_USER: fortipass
       MYSQL_PASSWORD: fortipass_secret
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
-      - ./mysql-data:/var/lib/mysql:rw
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
 
 volumes:
   mysql_data:
-    driver: local

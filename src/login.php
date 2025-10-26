@@ -35,23 +35,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="assets/css/style.css" rel="stylesheet">
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-box">
-            <h1>FortiPass</h1>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Welcome Back</h1>
+                <p>Sign in to access your passwords</p>
+            </div>
+
             <?php if ($error): ?>
                 <div class="alert alert-danger"><?= sanitizeOutput($error) ?></div>
             <?php endif; ?>
+
             <form method="POST" action="login.php">
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
                 </div>
+
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
+                    <input type="password" id="password" name="password" class="form-control" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Login</button>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
             </form>
+
+            <div class="divider">
+                <span>New to FortiPass?</span>
+            </div>
+
+            <a href="register.php" class="btn btn-secondary" style="width: 100%;">Create Account</a>
         </div>
     </div>
 </body>
