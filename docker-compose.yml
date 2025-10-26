@@ -1,0 +1,32 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html:rw
+      - ./uploads:/var/www/html/uploads:rw
+    depends_on:
+      - db
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_USER=fortipass
+      - MYSQL_PASSWORD=fortipass_secret
+      - MYSQL_DATABASE=fortipass
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root_secret
+      MYSQL_DATABASE: fortipass
+      MYSQL_USER: fortipass
+      MYSQL_PASSWORD: fortipass_secret
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./mysql-data:/var/lib/mysql:rw
+
+volumes:
+  mysql_data:
+    driver: local

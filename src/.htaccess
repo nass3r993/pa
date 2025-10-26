@@ -1,0 +1,21 @@
+# INTENTIONAL VULN: Directory Listing
+Options +Indexes
+
+# Prevent access to sensitive files
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Enable PHP processing
+<FilesMatch "\.(php|phtml)$">
+    SetHandler application/x-httpd-php
+</FilesMatch>
+
+# Redirect to login if not authenticated
+RewriteEngine On
+RewriteCond %{REQUEST_URI} !^/login\.php
+RewriteCond %{REQUEST_URI} !^/assets/
+RewriteCond %{REQUEST_URI} !^/uploads/
+RewriteCond %{SESSION:user_id} ""
+RewriteRule .* /login.php [R,L]
